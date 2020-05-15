@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,6 +21,7 @@ public class MovieViewModel extends AndroidViewModel {
 
     private MutableLiveData<MovieResult> mutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Movies> movieLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<MovieCast>> movieCastLiveData = new MutableLiveData<>();
     private MovieRepository moviesRepository;
 
     public MovieViewModel(@NonNull Application application) {
@@ -81,6 +84,31 @@ public class MovieViewModel extends AndroidViewModel {
         });
 
         return movieLiveData;
+    }
+
+    LiveData<List<MovieCast>> callMovieCastDetails(int id) {
+        ApiInterface service = RetrofitApiInstance.getRetrofitInstance().create(ApiInterface.class);
+        Call<MovieResult> call = service.getMovieCredits(id, BuildConfig.API_KEY);
+        call.enqueue(new Callback<MovieResult>() {
+            @Override
+            public void onResponse(@NonNull Call<MovieResult> call, @NonNull Response<MovieResult> response) {
+                Log.d("TAG", "Result: "+new Gson().toJson(response.body()));
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        movieCastLiveData.setValue(response.body().getCasts());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MovieResult> call, @NonNull Throwable t) {
+                t.printStackTrace();
+                Log.d("TAG", "Error: "+t.getMessage());
+                movieCastLiveData.setValue(null);
+            }
+        });
+
+        return movieCastLiveData;
     }
 
 }
