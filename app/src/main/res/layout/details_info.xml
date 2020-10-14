@@ -8,6 +8,10 @@
         <variable
             name="movieDetails"
             type="com.example.androidapp.Movies" />
+
+        <variable
+            name="viewModel"
+            type="com.example.androidapp.MovieViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,8 +47,8 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
-                tools:image="@{movieDetails.posterPath}"
-                tools:background="@tools:sample/backgrounds/scenic" />
+                tools:background="@tools:sample/backgrounds/scenic"
+                tools:image="@{movieDetails.posterPath}" />
 
         </androidx.cardview.widget.CardView>
 
@@ -71,10 +75,10 @@
             android:layout_marginEnd="16dp"
             android:clickable="false"
             android:focusable="false"
-            tools:items="@{movieDetails.genres}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/text_title"
-            app:layout_constraintTop_toBottomOf="@+id/text_title" />
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            tools:items="@{movieDetails.genres}" />
         <!--tools:items="@{movieDetails.genres}"
         app:visibleGone="@{movieDetails.genres != null}"-->
 
@@ -103,9 +107,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:text="@string/release_date"
-            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             android:textColor="@color/secondaryText"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/label_language"
             app:layout_constraintTop_toBottomOf="@+id/text_release_date" />
@@ -159,13 +163,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/language"
-            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             android:textColor="@color/secondaryText"
-            tools:webViewClick="@{movieDetails.homepage}"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/label_release_date"
             app:layout_constraintStart_toEndOf="@+id/label_vote"
-            app:layout_constraintTop_toBottomOf="@+id/text_language" />
+            app:layout_constraintTop_toBottomOf="@+id/text_language"
+            tools:webViewClick="@{movieDetails.homepage}" />
 
         <TextView
             android:id="@+id/text_language"
@@ -217,6 +221,29 @@
             tools:text="@tools:sample/lorem" />
 
         <TextView
+            android:id="@+id/label_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/label_rating"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_overview" />
+
+        <RatingBar
+            android:id="@+id/movie_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:setRating="@{movieDetails.id}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_rating" />
+
+        <TextView
             android:id="@+id/label_cast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -225,7 +252,7 @@
             android:text="@string/label_cast"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_overview" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_rating" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_cast_movie_detail"
@@ -233,9 +260,9 @@
             android:layout_height="190dp"
             android:layout_marginTop="16dp"
             android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/item_cast"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/label_cast"
+            tools:listitem="@layout/item_cast"
             tools:targetApi="lollipop" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

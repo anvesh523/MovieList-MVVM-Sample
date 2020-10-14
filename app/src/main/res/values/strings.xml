@@ -3,6 +3,7 @@
 
     <string name="label_cast">Cast</string>
     <string name="label_overview">Overview</string>
+    <string name="label_rating">Give your rating</string>
     <string name="release_date">Release date</string>
     <string name="label_votes">%s votes</string>
     <string name="language">Language</string>
